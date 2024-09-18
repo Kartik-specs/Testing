@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo : Pig Game</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient( 76.3deg,  rgba(44,62,78,1) 12.6%, rgba(69,103,131,1) 82.8% );
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        #game-board {
+            width: 1100px;
+            height: 700px;
+            border-radius: 10px;
+            background-color: white;
+            display: flex;
+            /* justify-content: space-between; */
+            position: relative;
+            align-items: center;
+        }
+
+        .Player {
+            width: 50%;
+            height: 100%;
+            text-align: center;
+        }
+
+        #Player-2 {
+            background-color: rgba(69, 103, 131, 0.315);    
+        }
+
+        .Player-details {
+            font-size: 3rem;
+        }
+
+        .Final-score {
+            color:  rgba(69,103,131,1);
+            line-height: 0;
+            font-size: 5rem;
+        }
+
+        .current-score-container {
+            width: 200px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 1rem;
+            background-color:  rgba(44,62,78,1);
+            margin: 0 auto;
+            font-size: 1.5rem;
+            line-height: 0;
+            margin-top: 19rem;
+            color: white;
+            box-shadow: 1px 1px 4px rgb(92, 91, 91);
+        }
+
+        .current-score {
+            line-height: 0.5;
+            font-size: 1.3em;
+        }
+
+        .game-widget-container {
+            display: flex;  
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-widget {
+            position: absolute;
+            font-size: 1.3rem;
+            line-height:0;
+            background-color: rgba(250, 250, 250, 0.8);
+            border-radius: 30px;
+            padding: 10px;
+            z-index: 1;
+            box-shadow: 1px 1px 4px rgb(92, 91, 91);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #new-game {
+            top:10% ;
+        }
+
+        #roll-dice {
+            top:70%;
+        }
+
+        #hold {
+            top:80%;
+        }
+
+        .game-widget:hover {
+            background-color:rgba(231, 229, 229, 0.8) ;
+        }
+
+
+        .dice {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        /* Dot positions */
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; }
+        .middle { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .middle-left { top: 50%; left: 20px; transform: translateY(-50%); }
+        .middle-right { top: 50%; right: 20px; transform: translateY(-50%); }
+        .bottom-left { bottom: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; }
+
+        /* Hide all faces by default */
+        .face {
+            display: none;
+        }
+
+        /* Show specific face (change the number to show different faces) */
+        .face-1 { display: flex; }
+
+    </style>
+
+</head>
+<body>
+    
+    <div id="game-board">
+
+        <div class="game-widget-container">
+            <div class="game-widget" id="new-game"><p>🔄️New Game</p></div>
+
+            <!-- Dice Container -->
+            <div class="dice">
+                <div class="face face-1">
+                    <div class="dot middle"></div>
+                </div>
+
+                <div class="face face-2">
+                    <div class="dot top-left"></div>
+                    <div class="dot bottom-right"></div>
+                </div>
+
+                <div class="face face-3">
+                    <div class="dot top-left"></div>
+                    <div class="dot middle"></div>
+                    <div class="dot bottom-right"></div>
+                </div>
+
+                <div class="face face-4">
+                    <div class="dot top-left"></div>
+                    <div class="dot top-right"></div>
+                    <div class="dot bottom-left"></div>
+                    <div class="dot bottom-right"></div>
+                </div>
+
+                <div class="face face-5">
+                    <div class="dot top-left"></div>
+                    <div class="dot top-right"></div>
+                    <div class="dot middle"></div>
+                    <div class="dot bottom-left"></div>
+                    <div class="dot bottom-right"></div>
+                </div>
+
+                <div class="face face-6">
+                    <div class="dot top-left"></div>
+                    <div class="dot top-right"></div>
+                    <div class="dot bottom-left"></div>
+                    <div class="dot bottom-right"></div>
+                    <div class="dot middle-left"></div>
+                    <div class="dot middle-right"></div>
+                </div>
+            </div>
+
+            <div class="game-widget" id="roll-dice"><p>🎲Roll Dice</p></div>
+            <div class="game-widget" id="hold"><p>📥Hold</p></div>
+        </div>
+
+        <div id="Player-1" class="Player">
+            <div class="Player-details">
+                <p class="Player-name">Player 1</p>
+                <p class="Final-score player-one-score">0</p>
+            </div>
+
+            <div class="current-score-container">
+                <p>CURRENT</p>
+                <p class="current-score player-one-current-score">0</p>
+            </div>
+        </div>
+
+        <div id="Player-2" class="Player">
+            <div class="Player-details">
+                <p class="Player-name">Player 2</p>
+                <p class="Final-score player-two-score">0</p>
+            </div>
+
+            <div class="current-score-container">
+                <p>CURRENT</p>
+                <p class="current-score player-two-current-score">0</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>
